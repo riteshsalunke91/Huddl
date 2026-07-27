@@ -11,17 +11,10 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "task_status")
-public class TaskStatus {
+public enum TaskStatus {
 
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Enumerated(EnumType.STRING)
-@Column(nullable = false)
-private TaskStatus status = TaskStatus.TODO;
-
-
-    public TaskStatus() {}
-
-
+    TODO, IN_PROGRESS, DONE;
 }
+
+
+

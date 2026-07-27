@@ -9,7 +9,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "leave_status")
-public class LeaveStatus {
+public enum LeaveStatus {
 
     // @Id
     // @GeneratedValue(strategy = GenerationType.IDENTITY)
