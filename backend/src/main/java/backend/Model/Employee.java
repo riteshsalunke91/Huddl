@@ -41,4 +41,63 @@ public class Employee {
 
     private Employee ()  {};
 
+
+    //getter 
+
+    public Long getId() {
+        return id;
+    }
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public String getDestination() {
+        return Destination;
+    }
+
+    public String getLeaveStatus() {
+        return leaveStatus;
+    }
+
+    public String getManager() {
+        return manager;
+    }
+
+
+    //setter
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public void setDestination(String destination) {
+        Destination = destination;
+    }
+
+    public void setLeaveStatus(String leaveStatus) {
+        this.leaveStatus = leaveStatus;
+    }
+
+    public void setManager(String manager) {
+        this.manager = manager;
+    }
 }

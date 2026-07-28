@@ -3,8 +3,11 @@ package backend.dto;
 
 import lombok.Data;
 
-@Data
 
+
+
+
+@Data
 public class AuthDtos {
 
     
