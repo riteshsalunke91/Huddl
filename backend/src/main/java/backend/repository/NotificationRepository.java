@@ -8,5 +8,7 @@ import backend.Model.Notification;
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
     // Add custom query methods if needed
+    List<Notification> FindByEmployeeName(String employeeName);
+    List
     
 }
