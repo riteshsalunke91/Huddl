@@ -1,6 +1,6 @@
 package backend.Model;
 
-import jakarta.persistence.Column;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,8 +11,8 @@ import jakarta.persistence.Table;
 @Table(name = "leave_status")
 public enum LeaveStatus {
 
-    // @Id
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
+     @Id
+     @GeneratedValue(strategy = GenerationType.IDENTITY)
     PENDING, APPROVED, REJECTED;
 }
     
