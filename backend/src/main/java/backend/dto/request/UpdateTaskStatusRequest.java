@@ -1,4 +1,4 @@
-package backend.dto;
+package backend.dto.request;
 
 import backend.Model.TaskStatus;
 import jakarta.validation.constraints.NotNull;

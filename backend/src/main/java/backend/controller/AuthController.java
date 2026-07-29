@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RestController
 @RequestMapping("/api/auth")
 
-public class AuthController {
+public class AuthController{
 
+
+    //account details
     @GetMapping("/auth/account")
 
    public ResponseEntity<AuthModel> getaccount(@RequestParam String name, @RequestParam String email){
@@ -22,6 +24,8 @@ public class AuthController {
         auth.setEmail(email);
         auth.setPassword("password");
         return ResponseEntity.ok(auth);
+    
 
-    }
+
+}
     

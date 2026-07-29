@@ -1,18 +1,17 @@
-package backend.dto;
+package backend.dto.request;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
-import backend.Model.Task;
-import backend.Model.TaskStatus;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 
 
-public class TaskDtos  {
+public class TaskDtosRequest  {
     
     @NotNull String title;
     String description;
     @NotNull @Email String  assigneeEmail;
+
      LocalDate deadline;
     private String photoUrl;
 
@@ -21,32 +20,26 @@ public class TaskDtos  {
 
     public String gettitle(){
        return title;
-
-
     }
-
      public String getdescription(){
        return description;
-
      }
-
       public String getassignemail(){
        return assigneeEmail;
-
       }
        public LocalDate getdedline (){
        return deadline;
 
        }
-
         public String getphotourl(){
        return photoUrl;
-
         }
+
        //  setter 
 
-        public void settitle(String tital){
-       this.title = tital;
+        public void settitle(String title)
+        {
+       this.title = title;
     
 }  
 

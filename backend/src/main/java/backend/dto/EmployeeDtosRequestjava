@@ -1,0 +1,40 @@
+package backend.dto;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+
+public class EmployeeDtos {
+
+    @NotNull String name;
+    @NotNull @Email String Email;
+ 
+private String role;
+
+//getter
+public String getName(){
+    return name;
+}
+
+public String getEmail(){
+    return Email;
+
+}
+
+public String getrole(){
+    return role;
+}
+
+//setter
+public void setname(String name){
+    this.name = name;
+}
+public void setEmail(String Email){
+    this.Email = Email;
+
+}
+public void setrole(String role){
+    this.role = role;
+}
+
+
+}
