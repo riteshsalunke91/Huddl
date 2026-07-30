@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import backend.Model.enums.TaskStatus;
+
 @Entity
 @Table(name = "task")
 public class Task {
@@ -71,6 +73,7 @@ public class Task {
     public LocalDateTime getCompletedAt() {
         return completedAt;
     }
+    
     //setter
 
     public void setId(Long id) {

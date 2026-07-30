@@ -19,14 +19,17 @@ public class Employee {
     @Id
     Long id;
 
-
-    @Column(nullable = false)
+    @Column(nullable = false,  unique = true)
     private String name;
+
+    @Column (nullable = false)
+    private String password;
+
 
     @Column(nullable = false)
     private String email;
 
-@Enumerated(EnumType.STRING)
+ @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private String role;
 
@@ -49,6 +52,9 @@ public class Employee {
     }
     public String getName() {
         return name;
+    }
+    public String getpassword(){
+        return password;
     }
 
     public String getEmail() {
@@ -81,7 +87,10 @@ public class Employee {
     public void setName(String name) {
         this.name = name;
     }
-
+    public void setpassword(String password)
+    {
+        this.password= password;
+    }
     public void setEmail(String email) {
         this.email = email;
     }

@@ -1,4 +1,4 @@
-package backend.dto.request;
+package backend.dto;
 
 public class NotificationDtosRequest {
  boolean read;
