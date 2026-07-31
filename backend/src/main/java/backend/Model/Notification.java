@@ -24,9 +24,6 @@ public class Notification {
 @Column(nullable = false)
     private String message;
 
-    // @Column(nullable = false)
-    // private String recipient;
-
      @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "recipient _id")
     private String recipient ;
@@ -61,10 +58,7 @@ public class Notification {
         return recipient;
     }
 
-
-
     //setters
-
 
     public void setRecipient(String recipient) {
         this.recipient = recipient;

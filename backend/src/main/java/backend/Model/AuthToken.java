@@ -36,7 +36,7 @@ public class AuthToken {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Tokentype  type;
+    private Token  type;
 
 
     @Column(nullable = false)
@@ -72,11 +72,11 @@ public class AuthToken {
         this.token = token;
     }
 
-    public TokenType getType() {
+    public Token getType() {
         return type;
     }
 
-    public void setType(TokenType type) {
+    public void setType(Token type) {
         this.type = type;
     }
 

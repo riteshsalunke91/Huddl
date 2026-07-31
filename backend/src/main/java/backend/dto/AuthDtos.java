@@ -1,40 +1,42 @@
+
+
 package backend.dto;
 
-
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
-@Data
 public class AuthDtos {
 
-    @NotNull String name;
-    @NotNull @Email String email;
-    private String password;
-    //getter
-    public  String getname(){
-        return name;
+    // What the client sends to log in
+    public record LoginRequest(
+            @NotBlank @Email String email,
+            @NotBlank String password
+    ) {}
 
-    }
-    public String getemail(){
-        return  email;
-        
-    }
-    public String getpassword(){
-        return password;
-    }
+    // What the server returns after a successful login (or signup)
+    public record LoginResponse(
+            String token
+    ) {}
 
-    //setter
-public void setname(String name){
-        this.name = name;
-    }
+    // What the client sends to self-register as a manager
+    public record SignupRequest(
+            @NotBlank String name,
+            @NotBlank @Email String email,
+            @NotBlank @Size(min = 6, message = "Password must be at least 6 characters") String password
+    ) {}
 
-    public void setemail(String email){
-        this.email = email;
-    }
+    // What the client sends to request a password reset link
+    public record ForgotPasswordRequest(
+            @NotBlank @Email String email
+    ) {}
 
-    public void setpassword(String password){
-        this.password = password;
-    }
-  
+    // What the client sends to actually set a new password —
+    // used for BOTH invite activation and forgot-password reset
+    public record SetPasswordRequest(
+            @NotBlank String token,
+            @NotBlank @Size(min = 6, message = "Password must be at least 6 characters") String password
+    ) {}
 }
+
+
