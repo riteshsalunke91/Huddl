@@ -1,6 +1,6 @@
 package backend.Model.enums;
 
-public enum AccoountStatus {
+public enum AccountStatus {
     INVITED, 
     ACTIVE
     
