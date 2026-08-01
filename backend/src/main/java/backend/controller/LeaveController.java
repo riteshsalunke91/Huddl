@@ -1,28 +1,23 @@
 package backend.controller;
 
+import java.util.HashSet;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import backend.dto.LeaveDtos.LeaveResponse;
+import jakarta.validation.Valid;
+
 
 public class LeaveController {
 
-    private final LeaveService leaveService;
+    private final LeaveService leaveService ;
 
-    @GetMapping("/getleave")
-    public ResponseEntity<LeaveResponse> getLeave() {
-        return ResponseEntity.ok(leaveService.getLeave());
-
-    }
-
-    @GetMapping("/updateleave")
-    public ResponseEntity<LeaveResponse> updateLeave() {
-        return ResponseEntity.ok(leaveService.updateLeave());
-    }
-
-    @GetMapping("/changeleave")
-    public ResponseEntity<LeaveResponse> changeLeave() {
-        return ResponseEntity.ok(leaveService.changeLeave());
+    @PostMapping
+    public ResponseEntity<LeaveResponse> apply(@Valid @RequestBody ApplyLeaveRequest Request) {
+        return ResponseEntity.ok(HttpStatus.CREATED).body(leaveService.applyLeave(Request));
     }
     
 }
