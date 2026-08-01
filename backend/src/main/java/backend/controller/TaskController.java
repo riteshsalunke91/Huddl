@@ -10,9 +10,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RestController
 public class TaskController {
 
-    @GetMapping("/")
-    public String getMethodName(@RequestParam String param ) {
-        return new String();
+
+    @GetMapping("/gettask")
+    public String getTask() {
+        return "Task details";
+    }
+
+    @GetMapping("/updatetask")
+    public String updateTask() {
+        return "Task details updated";
     }
     
     
