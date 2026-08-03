@@ -1,7 +1,6 @@
 package backend.repository;
 
 import backend.Model.Employee;
-import jakarta.persistence.Id;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

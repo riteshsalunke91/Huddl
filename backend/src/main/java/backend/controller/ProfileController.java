@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,16 +32,12 @@ public class ProfileController {
     }
 
     //updateprofile
-    @GetMapping("/updateprofile")
+    @PatchMapping("/updateprofile")
         public ResponseEntity<ProfileResponse> updateProfile(){
-            return ResponseEntity.ok(profileservice.updateprofile());
+            return ResponseEntity.ok(profileService.updateprofile());
         
     }
-    //changeprofile
-     @GetMapping("/changeprofile")
-        
-    public ResponseEntity<ProfileResponse> changeprofile(){
-        return ResponseEntity.ok(profileservice.changeprofile());
+   
     }
 
 

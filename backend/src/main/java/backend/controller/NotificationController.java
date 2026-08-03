@@ -1,26 +1,37 @@
 package backend.controller;
 
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import backend.dto.NotificationDtos.NotificationResponse;
+import backend.service.NotificationService;
+import jakarta.validation.Valid;
 
 @Service
 public class NotificationController {
 
+    private final NotificationService notificationService;
 
-    @GetMapping("/getnotification")
-    public String getNotification() {
-        return "Notification details";
+    @GetMapping
+    public ResponseEntity<List<NotificationResponse>> listtmine() {
+        return ResponseEntity.ok(notificationService.listtmine());
     }
 
-    @GetMapping("/updatenotification")
-    public String updateNotification() {
-        return "Notification details updated";
+    @GetMapping("/unread-count")
+    public ResponseEntity<Map<String, Integer>> getUnreadCount() {
+        return ResponseEntity.ok(notificationService.getUnreadCount());
     }
 
-    @PostMapping("/deletenotification")
-    public String deleteNotification() {
-        return "Notification deleted";
+    @PatchMapping("/{ID}/read")
+    public ResponseEntity<NotificationResponse> markAsRead(@Valid @PathVariable Long ID) {
+        return ResponseEntity.ok(notificationService.markAsRead(ID, Request,Read));
     }
 }
 
