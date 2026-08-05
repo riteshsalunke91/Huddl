@@ -1,26 +1,24 @@
 package backend.controller;
 
 import backend.dto.AnalyticsDtos.SummaryResponse;
-
-import backend.service.AnalyticsService;
+import backend.service.DashboardService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/analytics")
-public class AnalyticsController {
+@RequestMapping("/api/dashboard")
+public class DashboardController {
 
-    private final AnalyticsService analyticsService;
+    private final DashboardService dashboardService;
 
-    public AnalyticsController(AnalyticsService analyticsService) {
-        this.analyticsService = analyticsService;
+    public DashboardController(DashboardService dashboardService) {
+        this.dashboardService = dashboardService;
     }
 
     @GetMapping("/summary")
     public ResponseEntity<SummaryResponse> summary() {
-        return ResponseEntity.ok(analyticsService.getSummary());
+        return ResponseEntity.ok(dashboardService.getSummary());
     }
 }
-

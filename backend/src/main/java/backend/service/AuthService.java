@@ -1,14 +1,11 @@
 package backend.service;
 
+import backend.Model.AuthToken;
+import backend.Model.Employee;
+import backend.Model.enums.Role;
 import backend.dto.AuthDtos.*;
-import backend.model.AuthToken;
-import backend.model.Employee;
-import backend.model.enums.AccountStatus;
-import backend.model.enums.AuthTokenType;
-import backend.model.enums.Role;
 import backend.repository.AuthTokenRepository;
 import backend.repository.EmployeeRepository;
-import backend.security.JwtUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;

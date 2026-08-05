@@ -1,46 +1,33 @@
 package backend.controller;
 
-import org.springframework.context.annotation.Profile;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import backend.dto.ProfileDtos;
-import backend.dto.ProfileDtos.ProfileResponse;
+import backend.dto.ProfileDtos.*;
+import backend.service.ProfileService;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RequestParam;
-
-
-@Controller
 @RestController
-@RequestMapping("apl/profiles")
+@RequestMapping("/api/profile")
 public class ProfileController {
 
-    private final ProfileService profileservice;
+    private final ProfileService profileService;
 
-    //getprofile
-    @GetMapping("/getprofile")
-    public ResponseEntity<ProfileResponse> getProfile()
-     {
-        return ResponseEntity.ok(ProfileService.getcurrentprofile()); 
-        
+    public ProfileController(ProfileService profileService) {
+        this.profileService = profileService;
     }
 
-    //updateprofile
-    @PatchMapping("/updateprofile")
-        public ResponseEntity<ProfileResponse> updateProfile(){
-            return ResponseEntity.ok(profileService.updateprofile());
-        
-    }
-   
+    @GetMapping
+    public ResponseEntity<ProfileResponse> getProfile() {
+        return ResponseEntity.ok(profileService.getCurrentProfile());
     }
 
+    @PatchMapping
+    public ResponseEntity<ProfileResponse> updateProfile(@Valid @RequestBody UpdateProfileRequest request) {
+        return ResponseEntity.ok(profileService.updateName(request));
+    }
 
-
-    
+    @PatchMapping("/password")
+    public ResponseEntity<ProfileResponse> changePassword(@Valid @RequestBody ChangePasswordRequest request) {
+        return ResponseEntity.ok(profileService.changePassword(request));
+    }
 }

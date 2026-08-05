@@ -10,13 +10,11 @@ import backend.Model.LeaveRequest;
 
 @Repository
 public interface LeaveRequestRepository extends JpaRepository<LeaveRequest, Long> {
-    // Add custom query methods if needed
-List<LeaveRequest> findByEmployeeId(Long  employeeId);
-List<LeaveRequest> findByStatus(Long employeeId, String status);
-List<LeaveRequest> findByStartDateBetween( Long employeeId, LocalDate startDate, LocalDate endDate);
+    List<LeaveRequest> findByEmployeeId(Long employeeId);
 
-List<LeaveRequest> findByEndDateBetween(LocalDate startDate, LocalDate endDate);
-List<LeaveRequest> findByName(Long employeeId, String name);
+    // Derived query joining through employee.manager.id — all leave requests
+    // belonging to any employee who reports to this manager.
+    List<LeaveRequest> findByEmployeeManagerId(Long managerId);
 
     
 }

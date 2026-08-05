@@ -1,37 +1,39 @@
 package backend.controller;
 
+import backend.dto.NotificationDtos.NotificationResponse;
+import backend.dto.NotificationDtos.UpdateReadRequest;
+import backend.service.NotificationService;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-
-import backend.dto.NotificationDtos.NotificationResponse;
-import backend.service.NotificationService;
-import jakarta.validation.Valid;
-
-@Service
+@RestController
+@RequestMapping("/api/notifications")
 public class NotificationController {
 
     private final NotificationService notificationService;
 
+    public NotificationController(NotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
+
     @GetMapping
-    public ResponseEntity<List<NotificationResponse>> listtmine() {
-        return ResponseEntity.ok(notificationService.listtmine());
+    public ResponseEntity<List<NotificationResponse>> list() {
+        return ResponseEntity.ok(notificationService.listForCurrentUser());
     }
 
-    @GetMapping("/unread-count")
-    public ResponseEntity<Map<String, Integer>> getUnreadCount() {
-        return ResponseEntity.ok(notificationService.getUnreadCount());
+    @PatchMapping("/{id}")
+    public ResponseEntity<NotificationResponse> updateRead(@PathVariable Long id, @Valid @RequestBody UpdateReadRequest request) {
+        return ResponseEntity.ok(notificationService.updateRead(id, request));
     }
 
-    @PatchMapping("/{ID}/read")
-    public ResponseEntity<NotificationResponse> markAsRead(@Valid @PathVariable Long ID) {
-        return ResponseEntity.ok(notificationService.markAsRead(ID, Request,Read));
+    @PostMapping("/read-all")
+    public ResponseEntity<Map<String, Boolean>> markAllRead() {
+        notificationService.markAllRead();
+        return ResponseEntity.ok(Map.of("success", true));
     }
 }
 

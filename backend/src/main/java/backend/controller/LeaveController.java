@@ -1,43 +1,40 @@
 package backend.controller;
 
-import java.util.HashSet;
-import java.util.List;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import backend.dto.LeaveDtos.ApplyLeaveRequest;
-import backend.dto.LeaveDtos.DecideLeaveRequest;
-import backend.dto.LeaveDtos.LeaveResponse;
+import backend.dto.LeaveDtos.*;
 import backend.service.LeaveService;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
+@RestController
+@RequestMapping("/api/leave")
 public class LeaveController {
 
-    private final LeaveService leaveService = new LeaveService();
+    private final LeaveService leaveService;
 
-    @PostMapping
-    public ResponseEntity<LeaveResponse> apply(@Valid @RequestBody ApplyLeaveRequest Request) {
-        return ResponseEntity.ok(HttpStatus.CREATED).body(leaveService.applyLeave(Request));
+    public LeaveController(LeaveService leaveService) {
+        this.leaveService = leaveService;
     }
 
     @GetMapping
-    public ResponseEntity<List<LeaveResponse>> LastMine() {
-        return ResponseEntity.ok(leaveService.lastMine());
+    public ResponseEntity<List<LeaveResponse>> list() {
+        return ResponseEntity.ok(leaveService.listForCurrentUser());
     }
 
     @GetMapping("/balance")
-    public ResponseEntity<LeaveResponse> getBalance() {
+    public ResponseEntity<LeaveBalanceResponse> balance() {
         return ResponseEntity.ok(leaveService.getBalance());
     }
 
-    @PostMapping("/{id}/decision")
-    public ResponseEntity<LeaveResponse> Decide(@Valid @RequestBody DecideLeaveRequest Request) {
-        return ResponseEntity.ok(leaveService.Decide(Request));
+    @PostMapping
+    public ResponseEntity<LeaveResponse> apply(@Valid @RequestBody ApplyLeaveRequest request) {
+        return ResponseEntity.ok(leaveService.apply(request));
     }
-    
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<LeaveResponse> decide(@PathVariable Long id, @Valid @RequestBody DecideLeaveRequest request) {
+        return ResponseEntity.ok(leaveService.decide(id, request));
+    }
 }

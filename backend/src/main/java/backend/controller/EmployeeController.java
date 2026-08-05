@@ -1,40 +1,31 @@
 package backend.controller;
 
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import backend.dto.EmployeeDtos.EmployeeResponse;
+import backend.service.EmployeeService;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/employees")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
 
-   @PostMapping("/invite")
-    public ResponseEntity<EmployeeResponse> invite(@Valid @RequestBody createEmployeeRequest request) {
-        return ResponseEntity.ok(HttpStatus.CREATED).
-        body(employeeService.createEmployee(request));
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
     }
-  
+
     @GetMapping
-    public ResponseEntity<EmployeeResponse> listTeams() {
-        return ResponseEntity.ok(employeeService.listEmployees());
+    public ResponseEntity<List<EmployeeResponse>> listMyTeam() {
+        return ResponseEntity.ok(employeeService.listMyTeam());
     }
 
-
-    @GetMapping("/{Id}")
-    public ResponseEntity<EmployeeResponse> getEmployee(@PathVariable String Id) {
-        return ResponseEntity.ok(employeeService.getEmployee(Id));
+    @PostMapping
+    public ResponseEntity<EmployeeResponse> invite(@Valid @RequestBody CreateEmployeeRequest request) {
+        return ResponseEntity.ok(employeeService.invite(request));
     }
-
 }
