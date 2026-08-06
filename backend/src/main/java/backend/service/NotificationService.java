@@ -2,6 +2,7 @@ package backend.service;
 
 import backend.Model.Employee;
 import backend.Model.Notification;
+import backend.Model.enums.NotificationType;
 import backend.dto.NotificationDtos.NotificationResponse;
 import backend.dto.NotificationDtos.UpdateReadRequest;
 
@@ -30,13 +31,13 @@ public class NotificationService {
     }
 
     public List<NotificationResponse> listForCurrentUser() {
-        Employee current = currentUserProvider.getCurrentEmployee();
+        Employee current = currentUserProvider.getcurrentEmployee();
         return notificationRepository.findByRecipientIdOrderByCreatedAtDesc(current.getId())
                 .stream().map(this::toResponse).toList();
     }
 
     public NotificationResponse updateRead(Long id, UpdateReadRequest request) {
-        Employee current = currentUserProvider.getCurrentEmployee();
+        Employee current = currentUserProvider.getcurrentEmployee();
         Notification notification = notificationRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Notification not found"));
 
@@ -51,7 +52,7 @@ public class NotificationService {
 
     @Transactional
     public void markAllRead() {
-        Employee current = currentUserProvider.getCurrentEmployee();
+        Employee current = currentUserProvider.getcurrentEmployee();
         List<Notification> unread = notificationRepository.findByRecipientIdAndReadFalse(current.getId());
         unread.forEach(n -> n.setRead(true));
         notificationRepository.saveAll(unread);

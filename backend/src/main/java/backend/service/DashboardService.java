@@ -2,6 +2,7 @@ package backend.service;
 
 
 
+import backend.Model.Employee;
 import backend.Model.Task;
 import backend.Model.enums.LeaveStatus;
 import backend.Model.enums.Role;
@@ -61,6 +62,6 @@ public class DashboardService {
                 .map(t -> new RecentTask(t.getId(), t.getTitle(), t.getAssignee().getName(), t.getStatus()))
                 .toList();
 
-        return new SummaryResponse(teamSize   , tasksOpen, tasksDoneThisWeek, leavePending, recentTasks);
+        return new SummaryResponse(teamSize, tasksOpen, tasksDoneThisWeek, leavePending, recentTasks);
     }
 }

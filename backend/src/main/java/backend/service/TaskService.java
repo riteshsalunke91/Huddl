@@ -2,6 +2,7 @@ package backend.service;
 
 import backend.Model.Employee;
 import backend.Model.Task;
+import backend.Model.enums.Role;
 import backend.Model.enums.TaskStatus;
 import backend.dto.TaskDtos.CreateTaskRequest;
 import backend.dto.TaskDtos.TaskResponse;
@@ -21,10 +22,10 @@ import java.util.List;
 
 public class TaskService {
 
-    private final TaskRepository taskRepository;
-    private final EmployeeRepository employeeRepository;
-    private final CurrentUserProvider currentUserProvider;
-    private final NotificationService notificationService;
+    private final TaskRepository taskRepository= null;
+    private final EmployeeRepository employeeRepository = null;
+    private final CurrentUserProvider currentUserProvider = null;
+    private final NotificationService notificationService = null;
 
     public List<TaskResponse> listForCurrentUser() {
         Employee current = currentUserProvider.getCurrentEmployee();
@@ -94,3 +95,5 @@ public class TaskService {
         );
     }
 }
+
+

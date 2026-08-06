@@ -2,6 +2,8 @@ package backend.dto;
 
 import java.util.List;
 
+
+
 public class AnalyticsDtos {
 
     
@@ -9,6 +11,8 @@ public class AnalyticsDtos {
             String name,
             int value
     ) {}
+
+    
 
     public record WeeklyCompletion(
             String week,
@@ -27,4 +31,11 @@ public class AnalyticsDtos {
             List<EmployeeWorkload> tasksByEmployee,
             List<NameValue> leaveBreakdown
     ) {}
+
+//         public SummaryResponse (int teamSize, long tasksOpen, long tasksDoneThisWeek, long leavePending,
+//                 List<RecentTask> recentTasks) {
+//             //TODO Auto-generated constructor stub
+//         }}
+// }
+
 }

@@ -1,5 +1,10 @@
 package backend.service;
 
+import backend.Model.Employee;
+import backend.Model.LeaveRequest;
+import backend.Model.Task;
+import backend.Model.enums.LeaveStatus;
+import backend.Model.enums.Role;
 import backend.dto.CalendarDtos.CalendarEventResponse;
 
 import backend.repository.LeaveRequestRepository;

@@ -1,7 +1,11 @@
 package backend.controller;
 
 import backend.dto.AnalyticsDtos.SummaryResponse;
+import backend.dto.DashboardDtos.RecentTask;
 import backend.service.DashboardService;
+
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

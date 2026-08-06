@@ -1,6 +1,11 @@
 package backend.service;
 
 
+import backend.Model.AuthToken;
+import backend.Model.Employee;
+import backend.Model.enums.AccountStatus;
+import backend.Model.enums.AuthTokenType;
+import backend.Model.enums.Role;
 import backend.dto.EmployeeDtos.EmployeeResponse;
 import backend.repository.AuthTokenRepository;
 import backend.repository.EmployeeRepository;
@@ -44,7 +49,7 @@ public class EmployeeService {
         Employee employee = new Employee();
         employee.setName(request.name());
         employee.setEmail(request.email());
-        employee.setPassword(null);
+        employee.setpassword(null);
         employee.setRole(Role.EMPLOYEE);
         employee.setManager(manager);
         employee.setLeaveBalance(18);
@@ -58,7 +63,7 @@ public class EmployeeService {
         token.setExpiresAt(LocalDateTime.now().plusHours(INVITE_VALID_HOURS));
         authTokenRepository.save(token);
 
-        // TODO: email the invite link containing token.getToken() here.
+        
 
         return toResponse(employee);
     }
@@ -66,8 +71,8 @@ public class EmployeeService {
     private EmployeeResponse toResponse(Employee e) {
         return new EmployeeResponse(
                 e.getId(), e.getName(), e.getEmail(), e.getDesignation(), e.getLeaveBalance(),
-                e.getManager() != null ? e.getManager().getName() : null,
-                e.getStatus()
+                e.getManager() != null ? e.getManager().get() : null,
+                e.getLeaveStatus()
         );
     }
 }

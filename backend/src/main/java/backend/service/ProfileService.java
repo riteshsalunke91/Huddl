@@ -1,6 +1,7 @@
 package backend.service;
 
 import backend.Model.Employee;
+import backend.controller.ChangePasswordRequest;
 import backend.dto.ProfileDtos.*;
 
 import backend.repository.EmployeeRepository;
@@ -24,18 +25,18 @@ public class ProfileService {
     }
 
     public ProfileResponse getCurrentProfile() {
-        return toResponse(currentUserProvider.getCurrentEmployee());
+        return toResponse(currentUserProvider.getcurrentEmployee());
     }
 
     public ProfileResponse updateName(UpdateProfileRequest request) {
-        Employee current = currentUserProvider.getCurrentEmployee();
+        Employee current = currentUserProvider.getcurrentEmployee();
         current.setName(request.name());
         employeeRepository.save(current);
         return toResponse(current);
     }
 
     public ProfileResponse changePassword(ChangePasswordRequest request) {
-        Employee current = currentUserProvider.getCurrentEmployee();
+        Employee current = currentUserProvider.getcurrentEmployee();
 
         if (!passwordEncoder.matches(request.currentPassword(), current.getPassword())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Current password is incorrect");

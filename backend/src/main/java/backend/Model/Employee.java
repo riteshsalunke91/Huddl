@@ -1,5 +1,6 @@
 package backend.Model;
 
+import backend.Model.enums.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -31,7 +32,7 @@ public class Employee {
 
  @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String role;
+    private Role role;
 
     private String Destination;
 
@@ -61,7 +62,7 @@ public class Employee {
         return email;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
@@ -94,8 +95,8 @@ public class Employee {
     public void setEmail(String email) {
         this.email = email;
     }
-    public void setRole(String role) {
-        this.role = role;
+    public void setRole(Role employee) {
+        this.role = employee;
     }
 
     public void setDestination(String destination) {
