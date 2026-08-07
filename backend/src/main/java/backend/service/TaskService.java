@@ -2,6 +2,7 @@ package backend.service;
 
 import backend.Model.Employee;
 import backend.Model.Task;
+import backend.Model.enums.NotificationType;
 import backend.Model.enums.Role;
 import backend.Model.enums.TaskStatus;
 import backend.dto.TaskDtos.CreateTaskRequest;

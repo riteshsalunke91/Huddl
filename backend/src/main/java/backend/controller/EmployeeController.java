@@ -24,6 +24,6 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ResponseEntity<EmployeeResponse> invite(@Valid @RequestBody EmployeeRequest request) {
+    public ResponseEntity<EmployeeResponse> invite(@Valid @RequestBody CreateEmployeeRequest request) {
         return ResponseEntity.ok(employeeService.invite(request));
     }

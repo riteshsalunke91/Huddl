@@ -23,6 +23,7 @@ import backend.dto.AnalyticsDtos.NameValue;
 import backend.dto.AnalyticsDtos.SummaryResponse;
 import backend.dto.AnalyticsDtos.WeeklyCompletion;
 import backend.repository.EmployeeRepository;
+import backend.repository.LeaveRequestRepository;
 import backend.repository.TaskRepository;
 
 
@@ -133,7 +134,7 @@ public class AnalyticsService {
     // -------------------------
     Map<String, Integer> leaveReasonMap = new HashMap<>();
 
-    leaveRequestRepository.findByEmployeeManagerId(manager.getId())
+    LeaveRequestRepository.findByEmployeeManagerId(manager.getId())
             .stream()
             .filter(leave -> leave.getStatus() == LeaveStatus.APPROVED)
             .forEach(leave -> {

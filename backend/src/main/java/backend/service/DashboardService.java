@@ -7,7 +7,7 @@ import backend.Model.Task;
 import backend.Model.enums.LeaveStatus;
 import backend.Model.enums.Role;
 import backend.Model.enums.TaskStatus;
-
+import backend.dto.AnalyticsDtos.SummaryResponse;
 import backend.dto.DashboardDtos.RecentTask;
 
 import backend.repository.EmployeeRepository;
