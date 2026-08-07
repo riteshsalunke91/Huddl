@@ -1,66 +1,48 @@
 package backend.Model;
 
+import backend.Model.enums.AuthTokenType;
+import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 
-import ch.qos.logback.core.subst.Token;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
-
 @Entity
-@Table(name= "authtoken")
+@Table(name = "authtoken")
 public class AuthToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private Long Id;
-
-
-    
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "employee_id")
-    private String employee;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_id", nullable = false)
+    private Employee employee;
 
     @Column(nullable = false, unique = true)
     private String token;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Token  type;
-
+    private AuthTokenType type;
 
     @Column(nullable = false)
     private LocalDateTime expiresAt;
 
-
     public AuthToken() {
     }
 
-
-
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
-    public String getEmployee() {
+    public Employee getEmployee() {
         return employee;
     }
 
-    public void setEmployee(String employee) {
+    public void setEmployee(Employee employee) {
         this.employee = employee;
     }
 
@@ -72,11 +54,11 @@ public class AuthToken {
         this.token = token;
     }
 
-    public Token getType() {
+    public AuthTokenType getType() {
         return type;
     }
 
-    public void setType(Token type) {
+    public void setType(AuthTokenType type) {
         this.type = type;
     }
 
@@ -87,7 +69,4 @@ public class AuthToken {
     public void setExpiresAt(LocalDateTime expiresAt) {
         this.expiresAt = expiresAt;
     }
-
-
-    
 }

@@ -6,9 +6,9 @@ import backend.Model.Task;
 import backend.Model.enums.LeaveStatus;
 import backend.Model.enums.Role;
 import backend.dto.CalendarDtos.CalendarEventResponse;
-
 import backend.repository.LeaveRequestRepository;
 import backend.repository.TaskRepository;
+
 import org.springframework.stereotype.Service;
 
 import java.time.YearMonth;
@@ -22,42 +22,84 @@ public class CalendarService {
     private final TaskRepository taskRepository;
     private final CurrentUserProvider currentUserProvider;
 
-    public CalendarService(LeaveRequestRepository leaveRequestRepository, TaskRepository taskRepository,
-                           CurrentUserProvider currentUserProvider) {
+    public CalendarService(
+            LeaveRequestRepository leaveRequestRepository,
+            TaskRepository taskRepository,
+            CurrentUserProvider currentUserProvider
+    ) {
         this.leaveRequestRepository = leaveRequestRepository;
         this.taskRepository = taskRepository;
         this.currentUserProvider = currentUserProvider;
     }
 
+
     public List<CalendarEventResponse> getEvents(YearMonth month) {
+
         Employee current = currentUserProvider.getCurrentEmployee();
+
         boolean isManager = current.getRole() == Role.MANAGER;
+
         List<CalendarEventResponse> events = new ArrayList<>();
 
+
+        // Leave Events
         List<LeaveRequest> leaves = isManager
                 ? leaveRequestRepository.findByEmployeeManagerId(current.getId())
                 : leaveRequestRepository.findByEmployeeId(current.getId());
 
-        leaves.stream()
-                .filter(l -> l.getStatus() != LeaveStatus.REJECTED)
-                .filter(l -> YearMonth.from(l.getStartDate()).equals(month) || YearMonth.from(l.getEndDate()).equals(month))
-                .forEach(l -> events.add(new CalendarEventResponse(
-                        "leave",
-                        l.getEmployee().getName() + " — " + l.getReason(),
-                        l.getStartDate(), l.getEndDate(), l.getStatus().name()
-                )));
 
+        leaves.stream()
+                .filter(leave -> leave.getStatus() != LeaveStatus.REJECTED)
+                .filter(leave ->
+                        YearMonth.from(leave.getStartDate()).equals(month)
+                        ||
+                        YearMonth.from(leave.getEndDate()).equals(month)
+                )
+                .forEach(leave -> {
+
+                    String employeeName =
+                            leave.getEmployee() != null
+                            ? leave.getEmployee().getName()
+                            : "Unknown";
+
+                    events.add(new CalendarEventResponse(
+                            "leave",
+                            employeeName + " — " + leave.getReason(),
+                            leave.getStartDate(),
+                            leave.getEndDate(),
+                            leave.getStatus().name()
+                    ));
+                });
+
+
+        // Task Deadline Events
         List<Task> tasks = isManager
                 ? taskRepository.findByAssignedById(current.getId())
                 : taskRepository.findByAssigneeId(current.getId());
 
+
         tasks.stream()
-                .filter(t -> t.getDeadline() != null && YearMonth.from(t.getDeadline()).equals(month))
-                .forEach(t -> events.add(new CalendarEventResponse(
-                        "deadline",
-                        t.getTitle() + " (" + t.getAssignee().getName() + ")",
-                        t.getDeadline(), null, t.getStatus().name()
-                )));
+                .filter(task ->
+                        task.getDeadline() != null
+                        &&
+                        YearMonth.from(task.getDeadline()).equals(month)
+                )
+                .forEach(task -> {
+
+                    String assignee =
+                            task.getAssignee() != null
+                            ? task.getAssignee().getName()
+                            : "Unassigned";
+
+                    events.add(new CalendarEventResponse(
+                            "deadline",
+                            task.getTitle() + " (" + assignee + ")",
+                            task.getDeadline(),
+                            null,
+                            task.getStatus().name()
+                    ));
+                });
+
 
         return events;
     }

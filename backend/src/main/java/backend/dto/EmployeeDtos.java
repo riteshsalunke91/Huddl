@@ -1,5 +1,6 @@
 package backend.dto;
 
+import backend.Model.enums.AccountStatus;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
@@ -20,8 +21,8 @@ public class EmployeeDtos {
             String email,
             String designation,
             int leaveBalance,
-            String managerName
-           // AccountStatus status
+            String managerName,
+            AccountStatus status
 ) {
     }
 

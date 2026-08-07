@@ -1,60 +1,57 @@
 package backend.Model;
 
+import backend.Model.enums.AccountStatus;
 import backend.Model.enums.Role;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "employee")
 public class Employee {
-@GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Id
-    Long id;
-
-    @Column(nullable = false,  unique = true)
-    private String name;
-
-    @Column (nullable = false)
-    private String password;
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false, unique = true)
     private String email;
 
- @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
 
-    private String Destination;
+    private String destination;
 
-    private String leaveStatus;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AccountStatus status;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @Column(nullable = false)
+    private int leaveBalance;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id")
-    private String manager;
+    private Employee manager;
 
+    public Employee() {
+    }
 
-    private Employee ()  {};
-
-
-    //getter 
+    // Getters
 
     public Long getId() {
         return id;
     }
+
     public String getName() {
         return name;
     }
-    public String getpassword(){
+
+    public String getPassword() {
         return password;
     }
 
@@ -67,19 +64,22 @@ public class Employee {
     }
 
     public String getDestination() {
-        return Destination;
+        return destination;
     }
 
-    public String getLeaveStatus() {
-        return leaveStatus;
+    public AccountStatus getStatus() {
+        return status;
     }
 
-    public String getManager() {
+    public int getLeaveBalance() {
+        return leaveBalance;
+    }
+
+    public Employee getManager() {
         return manager;
     }
 
-
-    //setter
+    // Setters
 
     public void setId(Long id) {
         this.id = id;
@@ -88,26 +88,32 @@ public class Employee {
     public void setName(String name) {
         this.name = name;
     }
-    public void setpassword(String password)
-    {
-        this.password= password;
+
+    public void setPassword(String password) {
+        this.password = password;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
-    public void setRole(Role employee) {
-        this.role = employee;
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public void setDestination(String destination) {
-        Destination = destination;
+        this.destination = destination;
     }
 
-    public void setLeaveStatus(String leaveStatus) {
-        this.leaveStatus = leaveStatus;
+    public void setStatus(AccountStatus status) {
+        this.status = status;
     }
 
-    public void setManager(String manager) {
+    public void setLeaveBalance(int leaveBalance) {
+        this.leaveBalance = leaveBalance;
+    }
+
+    public void setManager(Employee manager) {
         this.manager = manager;
     }
 }
