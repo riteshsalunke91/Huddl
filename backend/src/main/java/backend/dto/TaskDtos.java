@@ -1,27 +1,26 @@
 package backend.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import backend.Model.enums.TaskStatus;
+
+import java.time.LocalDateTime;
 
 public class TaskDtos {
 
     public record CreateTaskRequest(
-            @NotBlank String title,
+            String title,
             String description,
-            @NotBlank @Email String assigneeEmail,
-            LocalDate deadline,
+            String assigneeEmail,
+            LocalDateTime deadline,
             String photoUrl
-    ) {}
+    ) {
+    }
+
 
     public record UpdateTaskStatusRequest(
-            @NotNull TaskStatus status
-    ) {}
+            TaskStatus status
+    ) {
+    }
+
 
     public record TaskResponse(
             Long id,
@@ -30,9 +29,10 @@ public class TaskDtos {
             String assigneeName,
             String assigneeEmail,
             TaskStatus status,
-            LocalDate deadline,
+            LocalDateTime deadline,
             String photoUrl,
             LocalDateTime createdAt,
             LocalDateTime completedAt
-    ) {}
+    ) {
+    }
 }

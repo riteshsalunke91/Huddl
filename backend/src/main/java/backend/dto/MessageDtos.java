@@ -4,11 +4,12 @@ import java.time.LocalDateTime;
 
 public class MessageDtos {
 
-
     public record SendMessageRequest(
             String text,
             String imageUrl
-    ) {}
+    ) {
+    }
+
 
     public record MessageResponse(
             Long id,
@@ -18,15 +19,16 @@ public class MessageDtos {
             String imageUrl,
             boolean read,
             LocalDateTime createdAt
-    ) {}
+    ) {
+    }
+
 
     public record ThreadSummaryResponse(
             Long contactId,
             String contactName,
             String lastMessage,
             LocalDateTime lastMessageAt,
-            int unreadCount
-    ) {}
+            int unread
+    ) {
+    }
 }
-    
-

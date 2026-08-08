@@ -1,45 +1,39 @@
 package backend.dto;
 
-import java.time.LocalDate;
-
 import backend.Model.enums.LeaveStatus;
-import jakarta.validation.constraints.NotBlank;
+
+import java.time.LocalDate;
 
 public class LeaveDtos {
 
     public record ApplyLeaveRequest(
-          @NotBlank  LocalDate Startdate,
-        @NotBlank LocalDate endDate ,
-     @NotBlank String Reason   ) {
+            LocalDate startDate,
+            LocalDate endDate,
+            String reason
+    ) {
     }
+
 
     public record DecideLeaveRequest(
-        @NotBlank LeaveStatus Status
+            LeaveStatus status
     ) {
     }
 
-    public record LeaveResponse( 
-          long id,
-          String employee,
-          LocalDate Startdate,
-          LocalDate endDate,
-          String reason
 
-
+    public record LeaveResponse(
+            Long id,
+            String employeeName,
+            LocalDate startDate,
+            LocalDate endDate,
+            String reason,
+            LeaveStatus status
     ) {
     }
+
 
     public record LeaveBalanceResponse(
-        int taken,
-        int remaining
+            int taken,
+            int remaining
     ) {
     }
-
-
-
-
-
-
-
-    
 }

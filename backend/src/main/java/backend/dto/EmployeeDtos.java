@@ -1,33 +1,24 @@
 package backend.dto;
 
 import backend.Model.enums.AccountStatus;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 
 public class EmployeeDtos {
 
-    public record Employeerequest(
+    public record CreateEmployeeRequest(
+            String name,
+            String email
+    ) {
+    }
 
-@NotBlank String name,
-@NotBlank @Email String email
 
-
-    ){}
-
-    public record EmployeeResponse
-(
+    public record EmployeeResponse(
             Long id,
             String name,
             String email,
-            String designation,
+            String destination,
             int leaveBalance,
             String managerName,
             AccountStatus status
-) {
+    ) {
     }
-
-
-
-    }
-    
-
+}
