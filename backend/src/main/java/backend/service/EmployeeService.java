@@ -27,41 +27,56 @@ public class EmployeeService {
     private final AuthTokenRepository authTokenRepository;
     private final CurrentUserProvider currentUserProvider;
 
-
     public EmployeeService(
             EmployeeRepository employeeRepository,
             AuthTokenRepository authTokenRepository,
-            CurrentUserProvider currentUserProvider
-    ) {
+            CurrentUserProvider currentUserProvider) {
+
         this.employeeRepository = employeeRepository;
         this.authTokenRepository = authTokenRepository;
         this.currentUserProvider = currentUserProvider;
     }
 
-
     public List<EmployeeResponse> listMyTeam() {
 
-        Employee manager = currentUserProvider.getCurrentEmployee();
+        Employee manager =
+                currentUserProvider.getCurrentEmployee();
 
-        return employeeRepository.findByManagerId(manager.getId())
+        if (manager.getRole() != Role.MANAGER) {
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN,
+                    "Only managers can view team"
+            );
+        }
+
+        return employeeRepository
+                .findByManagerId(manager.getId())
                 .stream()
                 .map(this::toResponse)
                 .toList();
     }
 
+    public EmployeeResponse invite(
+            CreateEmployeeRequest request) {
 
-    public EmployeeResponse invite( CreateEmployeeRequest request) {
+        Employee manager =
+                currentUserProvider.getCurrentEmployee();
 
-        Employee manager = currentUserProvider.getCurrentEmployee();
+        if (manager.getRole() != Role.MANAGER) {
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN,
+                    "Only managers can invite employees"
+            );
+        }
 
+        if (employeeRepository.existsByEmail(
+                request.email())) {
 
-        if (employeeRepository.existsByEmail(request.email())) {
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT,
                     "An account with this email already exists"
             );
         }
-
 
         Employee employee = new Employee();
 
@@ -75,35 +90,33 @@ public class EmployeeService {
 
         employeeRepository.save(employee);
 
-
         AuthToken token = new AuthToken();
 
         token.setEmployee(employee);
         token.setToken(UUID.randomUUID().toString());
         token.setType(AuthTokenType.INVITE);
         token.setExpiresAt(
-                LocalDateTime.now().plusHours(INVITE_VALID_HOURS)
+                LocalDateTime.now()
+                        .plusHours(INVITE_VALID_HOURS)
         );
 
         authTokenRepository.save(token);
 
-
         return toResponse(employee);
     }
 
-
-    private EmployeeResponse toResponse(Employee e) {
+    private EmployeeResponse toResponse(Employee employee) {
 
         return new EmployeeResponse(
-                e.getId(),
-                e.getName(),
-                e.getEmail(),
-                e.getDestination(),
-                e.getLeaveBalance(),
-                e.getManager() != null
-                        ? e.getManager().getName()
+                employee.getId(),
+                employee.getName(),
+                employee.getEmail(),
+                employee.getDestination(),
+                employee.getLeaveBalance(),
+                employee.getManager() != null
+                        ? employee.getManager().getName()
                         : null,
-                e.getStatus()
+                employee.getStatus()
         );
     }
 }

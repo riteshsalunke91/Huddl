@@ -1,7 +1,9 @@
 package backend.service;
 
 import backend.Model.Employee;
-
+import backend.dto.ProfileDtos.ChangePasswordRequest;
+import backend.dto.ProfileDtos.ProfileResponse;
+import backend.dto.ProfileDtos.UpdateProfileRequest;
 import backend.repository.EmployeeRepository;
 
 import org.springframework.http.HttpStatus;
@@ -16,17 +18,15 @@ public class ProfileService {
     private final CurrentUserProvider currentUserProvider;
     private final PasswordEncoder passwordEncoder;
 
-
     public ProfileService(
             EmployeeRepository employeeRepository,
             CurrentUserProvider currentUserProvider,
-            PasswordEncoder passwordEncoder
-    ) {
+            PasswordEncoder passwordEncoder) {
+
         this.employeeRepository = employeeRepository;
         this.currentUserProvider = currentUserProvider;
         this.passwordEncoder = passwordEncoder;
     }
-
 
     public ProfileResponse getCurrentProfile() {
 
@@ -35,11 +35,20 @@ public class ProfileService {
         );
     }
 
-
-    public ProfileResponse updateName(UpdateProfileRequest request) {
+    public ProfileResponse updateName(
+            UpdateProfileRequest request) {
 
         Employee current =
                 currentUserProvider.getCurrentEmployee();
+
+        if (request.name() == null
+                || request.name().isBlank()) {
+
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Name cannot be empty"
+            );
+        }
 
         current.setName(request.name());
 
@@ -48,12 +57,11 @@ public class ProfileService {
         return toResponse(current);
     }
 
-
-    public ProfileResponse changePassword(ChangePasswordRequest request) {
+    public ProfileResponse changePassword(
+            ChangePasswordRequest request) {
 
         Employee current =
                 currentUserProvider.getCurrentEmployee();
-
 
         if (!passwordEncoder.matches(
                 request.currentPassword(),
@@ -66,9 +74,10 @@ public class ProfileService {
             );
         }
 
-
         current.setPassword(
-                passwordEncoder.encode(request.newPassword())
+                passwordEncoder.encode(
+                        request.newPassword()
+                )
         );
 
         employeeRepository.save(current);
@@ -76,19 +85,18 @@ public class ProfileService {
         return toResponse(current);
     }
 
-
-    private ProfileResponse toResponse(Employee e) {
+    private ProfileResponse toResponse(Employee employee) {
 
         return new ProfileResponse(
-                e.getId(),
-                e.getName(),
-                e.getEmail(),
-                e.getRole(),
-                e.getDestination(),
-                e.getManager() != null
-                        ? e.getManager().getName()
+                employee.getId(),
+                employee.getName(),
+                employee.getEmail(),
+                employee.getRole(),
+                employee.getDestination(),
+                employee.getManager() != null
+                        ? employee.getManager().getName()
                         : null,
-                e.getLeaveBalance()
+                employee.getLeaveBalance()
         );
     }
 }
